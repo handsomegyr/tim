@@ -11,52 +11,73 @@ namespace Tim\Http;
 
 class Request
 {
+    protected $_sdkappid = null;
+    protected $_identifier = null;
+    protected $_usersig = null;
+    protected $_random = null;
+    protected $_contenttype = null;
 
-    protected $_accessToken = null;
-
-    protected $_tmp = null;
-
-    protected $_json = true;
-
-    protected $_accessTokenName = 'access_token';
-
-    public function __construct($accessToken = '', $json = true, $accessTokenName = 'access_token')
+    public function __construct($sdkappid = '', $identifier = '', $usersig = '', $random = 0, $contenttype = 'json')
     {
-        $this->setAccessTokenName($accessTokenName);
-        $this->setAccessToken($accessToken);
-        $this->setJson($json);
+        $this->setSdkappid($sdkappid);
+        $this->setIdentifier($identifier);
+        $this->setUsersig($usersig);
+        $this->setRandom($random);
+        $this->setContenttype($contenttype);
     }
 
     /**
-     * 设定access token
+     * 设定sdkappid
      *
-     * @param string $accessToken            
+     * @param string $sdkappid        
      */
-    public function setAccessToken($accessToken)
+    public function setSdkappid($sdkappid)
     {
-        $this->_accessToken = $accessToken;
+        $this->_sdkappid = $sdkappid;
         return $this;
     }
 
     /**
-     * 设定access token所对应的字段名字
+     * 设定identifier
      *
-     * @param string $accessTokenName            
+     * @param string $identifier            
      */
-    public function setAccessTokenName($accessTokenName)
+    public function setIdentifier($identifier)
     {
-        $this->_accessTokenName = $accessTokenName;
+        $this->_identifier = $identifier;
         return $this;
     }
 
     /**
-     * 设定是否是json输出
+     * 设定usersig
      *
-     * @param string $accessTokenName            
+     * @param string $usersig            
      */
-    public function setJson($json)
+    public function setUsersig($usersig)
     {
-        $this->_json = $json;
+        $this->_usersig = $usersig;
+        return $this;
+    }
+
+    /**
+     * 设定random
+     *
+     * @param string $random        
+     */
+    public function setRandom($random)
+    {
+        $this->_random = $random;
+        return $this;
+    }
+
+    /**
+     * 设定contenttype
+     *
+     * @param string $contenttype        
+     */
+    public function setContenttype($contenttype)
+    {
+        $this->_contenttype = $contenttype;
         return $this;
     }
 
@@ -321,8 +342,20 @@ class Request
     protected function getQueryParam4AccessToken()
     {
         $params = array();
-        if (!empty($this->_accessTokenName) && !empty($this->_accessToken)) {
-            $params[$this->_accessTokenName] = $this->_accessToken;
+        if (!empty($this->_sdkappid)) {
+            $params['sdkappid'] = $this->_sdkappid;
+        }
+        if (!empty($this->_identifier)) {
+            $params['identifier'] = $this->_identifier;
+        }
+        if (!empty($this->_usersig)) {
+            $params['usersig'] = $this->_usersig;
+        }
+        if (!empty($this->_random)) {
+            $params['random'] = $this->_random;
+        }
+        if (!empty($this->_contenttype)) {
+            $params['contenttype'] = $this->_contenttype;
         }
         return $params;
     }
